@@ -8,7 +8,7 @@ class Stack {
   }
 
   pop() {
-    if (this.isEmpty) {
+    if (this.isEmpty()) {
       throw new Error("Stack underflow : cannot pop from empty stack");
     }
 
@@ -18,7 +18,7 @@ class Stack {
     if (this.isEmpty()) {
       throw new Error("stack is empty");
     }
-    return this.isEmpty[this.items.length - 1];
+    return this.items[this.items.length - 1];
   }
 
   isEmpty() {
@@ -30,6 +30,9 @@ class Stack {
 
   print() {
     console.log(this.items.join("->"));
+  }
+  toString() {
+    return this.items.join("->");
   }
 }
 
@@ -44,3 +47,6 @@ stack.print();
 console.log(stack.pop());
 console.log(stack.peek());
 console.log(stack.size());
+console.log("" + stack);
+console.log(String(stack));
+console.log(stack.toString());
