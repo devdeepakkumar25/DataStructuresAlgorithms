@@ -268,3 +268,211 @@ function permutationUsingSwaping(st) {
 }
 
 permutationUsingSwaping("abc");
+
+function changingCase(st) {
+  let res = [];
+
+  for (let i = 0; i < st.length; i++) {
+    let ch = st[i];
+
+    let asciCode = ch.codePointAt(0);
+    console.log(asciCode);
+
+    if (asciCode >= 97 && asciCode <= 122) {
+      res.push(String.fromCharCode(asciCode - 32));
+    } else if (asciCode > 65 && asciCode <= 90) {
+      res.push(String.fromCharCode(asciCode + 32));
+    } else {
+      res.push(ch);
+    }
+  }
+  return res.join("");
+}
+
+let st = "abcABC234@";
+
+console.log(changingCase(st));
+
+function countVowels(str) {
+  let count = 0;
+
+  let set = new Set("aeiouAEIOU");
+
+  let vowels = "aeiouAEIOU";
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+    // if (set.has(chr)) {
+    //   count++;
+    // }
+
+    if (vowels.indexOf(chr) !== -1) {
+      count++;
+    }
+  }
+  return count;
+}
+
+console.log(countVowels("abcd"));
+
+function reverseStr(str) {
+  let res = [];
+  let n = str.length - 1;
+
+  for (let i = n; i >= 0; i--) {
+    let chr = str[i];
+    res.push(chr);
+  }
+
+  return res.join("");
+}
+
+console.log(reverseStr("abc"));
+
+function reverseWords(str) {
+  let res = str.trim().split(/\s+/);
+
+  res.reverse();
+
+  return res.join(" ");
+}
+
+console.log(reverseWords("How are    you   "));
+
+function areRotations(str1, str2) {
+  return str1.length === str2.length && (str1 + str1).includes(str2);
+}
+
+console.log(areRotations("abcd", "dabc"));
+console.log(areRotations("abcd", "cdba"));
+
+function removeDuplicates(str) {
+  let output = [];
+  let set = new Set();
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+
+    if (!set.has(chr)) {
+      output.push(chr);
+      set.add(chr);
+    }
+  }
+  return output.join("");
+}
+
+console.log(removeDuplicates("acbdedabcda"));
+
+function mostRepeatedChar(str) {
+  let map = new Map();
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+    map.set(chr, (map.get(chr) ?? 0) + 1);
+  }
+
+  let maxNum = 0;
+
+  let chr = "";
+
+  for (let [char, value] of map.entries()) {
+    if (value > maxNum) {
+      maxNum = value;
+      chr = char;
+    }
+  }
+
+  return { character: chr, max: maxNum };
+}
+
+console.log(mostRepeatedChar("abcdaescaaa vbasea"));
+
+function mostRepeatedCharHash(str) {
+  let ht = new Array(256).fill(0);
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+    let asciCode = chr.charCodeAt(0);
+    ht[asciCode]++;
+  }
+
+  let maxNum = 0;
+  let index = 0;
+
+  for (let i = 0; i < ht.length; i++) {
+    if (ht[i] > maxNum) {
+      maxNum = ht[i];
+      index = i;
+    }
+  }
+
+  return { character: String.fromCodePoint(index), max: maxNum };
+}
+
+console.log(mostRepeatedCharHash("abcdeadca"));
+
+function capitalizeWord(sent) {
+  // let words = sent.trim().split(/\s+/);
+  let words = sent.trim().replaceAll(/ +/g, " ").split();
+
+  for (let i = 0; i < words.length; i++) {
+    // words[i] = words[i][0].toUpperCase() + words[i].substring(1).toLowerCase();
+    words[i] =
+      words[i].substring(0, 1).toUpperCase() +
+      words[i].substring(1).toLowerCase();
+  }
+
+  return words.join(" ");
+}
+
+console.log(capitalizeWord("how    are you"));
+
+function isAnagram(str1, str2) {
+  if (str1.length !== str2.length) return false;
+  let arr1 = str1.toLowerCase().split("").sort();
+  let arr2 = str2.toLowerCase().split("").sort();
+
+  return arr1.join("") === arr2.join("") ? true : false;
+}
+
+console.log(isAnagram("abc", "cba"));
+
+function isAnagramUsingHash(str1, str2) {
+  if (str1.length !== str2.length) return false;
+  str1 = str1.toLowerCase();
+  str2 = str2.toLowerCase();
+
+  let ht = new Array(26).fill(0);
+
+  for (let chr of str1) {
+    let asciCode = chr.charCodeAt(0);
+
+    ht[asciCode - 97]++;
+  }
+
+  for (let chr of str2) {
+    let asciCode = chr.charCodeAt(0);
+    ht[asciCode - 97]--;
+
+    if (ht[asciCode - 97] < 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+console.log(isAnagramUsingHash("abcd", "bcdda"));
+
+function isPalindrom(str) {
+  let i = 0;
+  let j = str.length - 1;
+
+  while (i < j) {
+    if (str[i] !== str[j]) return false;
+    i++;
+    j--;
+  }
+  return true;
+}
+
+console.log(isPalindrom("kanak", "kanak"));

@@ -37,3 +37,40 @@ function firstRepeatingChar(str) {
 }
 
 console.log(firstRepeatingChar(str));
+
+function nonRepeatingChar(str) {
+  str = str.toLowerCase();
+  let map = new Map();
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+
+    map.set(chr, (map.get(chr) ?? 0) + 1);
+  }
+
+  for (let chr of str) {
+    if (map.get(chr) === 1) {
+      return chr;
+    }
+  }
+  return "";
+}
+
+console.log(nonRepeatingChar("A green apple"));
+
+function firstRepeatedChar(str) {
+  str = str.toLowerCase();
+
+  let set = new Set();
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+
+    if (set.has(chr)) {
+      return chr;
+    }
+    set.add(chr);
+  }
+  return "";
+}
+
+console.log(firstRepeatedChar("green apple"));
