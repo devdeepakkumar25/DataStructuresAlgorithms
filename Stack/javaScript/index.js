@@ -88,3 +88,29 @@ function isBalancedExp(exp) {
 }
 
 console.log(isBalancedExp(exp));
+
+function isBalanced(str) {
+  let stack = [];
+
+  let leftBracket = "([{<";
+  let rightBracket = ")]}>";
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str[i];
+    if (leftBracket.indexOf(chr) != -1) {
+      stack.push(chr);
+    } else if (rightBracket.indexOf(chr) !== -1) {
+      if (stack.length === 0) return false;
+
+      let left = stack.pop();
+      if (leftBracket.indexOf(left) !== rightBracket.indexOf(chr)) {
+        return false;
+      } else {
+        return false;
+      }
+    }
+  }
+  return stack.length === 0;
+}
+
+console.log(isBalanced("(({1+2)})"));
