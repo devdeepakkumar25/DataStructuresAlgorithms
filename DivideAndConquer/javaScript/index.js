@@ -151,3 +151,167 @@ let mid = Math.floor((low + high) / 2);
 recMergeSort(arr, low, high);
 
 console.log(arr);
+
+function matrixMul(arra, arrb) {
+  let n = arra.length; // rows of A
+  let m = arra[0].length; // columns of A
+  let p = arrb[0].length; // columns of B
+
+  // result matrix n x p
+  let c = Array.from({ length: n }, () => Array(p).fill(0));
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < p; j++) {
+      for (let k = 0; k < m; k++) {
+        c[i][j] += arra[i][k] * arrb[k][j];
+      }
+    }
+  }
+
+  return c;
+}
+
+function matrixMul(arra, arrb) {
+  let n = arra.length; // rows of A
+  let m = arra[0].length; // cols of A
+  let rb = arrb.length; // rows of B
+  let p = arrb[0].length; // cols of B
+
+  if (m !== rb) {
+    throw new Error(
+      "Matrix multiplication not possible: columns of A must equal rows of B"
+    );
+  }
+
+  let c = Array.from({ length: n }, () => Array(p).fill(0));
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < p; j++) {
+      for (let k = 0; k < m; k++) {
+        c[i][j] += arra[i][k] * arrb[k][j];
+      }
+    }
+  }
+
+  return c;
+}
+
+// let A = [
+//   [1, 2, 3],
+//   [4, 5, 6],
+//   [5, 1, 2],
+// ];
+
+// let B = [
+//   [7, 8],
+//   [9, 10],
+//   [11, 12],
+// ];
+
+// let B = [
+//   [1, 2, 3],
+//   [4, 5, 6],
+//   [2, 1, 9],
+// ];
+
+// console.log(matrixMul(A, B));
+
+function addMatrix(A, B) {
+  let n = A.length;
+  let C = Array.from({ length: n }, () => Array(n).fill(0));
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      C[i][j] = A[i][j] + B[i][j];
+    }
+  }
+  return C;
+}
+
+function subMatrix(A, B) {
+  let n = A.length;
+  let C = Array.from({ length: n }, () => Array(n).fill(0));
+
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < n; j++) {
+      C[i][j] = A[i][j] - B[i][j];
+    }
+  }
+  return C;
+}
+function splitMatrix(A) {
+  let n = A.length;
+  let mid = n / 2;
+
+  let A11 = [],
+    A12 = [],
+    A21 = [],
+    A22 = [];
+
+  for (let i = 0; i < mid; i++) {
+    A11.push(A[i].slice(0, mid));
+    A12.push(A[i].slice(mid));
+    A21.push(A[i + mid].slice(0, mid));
+    A22.push(A[i + mid].slice(mid));
+  }
+
+  return [A11, A12, A21, A22];
+}
+
+function joinMatrix(C11, C12, C21, C22) {
+  let n = C11.length * 2;
+  let C = Array.from({ length: n }, () => Array(n).fill(0));
+  let mid = n / 2;
+
+  for (let i = 0; i < mid; i++) {
+    for (let j = 0; j < mid; j++) {
+      C[i][j] = C11[i][j];
+      C[i][j + mid] = C12[i][j];
+      C[i + mid][j] = C21[i][j];
+      C[i + mid][j + mid] = C22[i][j];
+    }
+  }
+
+  return C;
+}
+function strassenMatrixMul(A, B) {
+  let n = A.length;
+
+  // Base case: 1×1 matrix
+  if (n === 1) {
+    return [[A[0][0] * B[0][0]]];
+  }
+
+  // Split matrices
+  let [A11, A12, A21, A22] = splitMatrix(A);
+  let [B11, B12, B21, B22] = splitMatrix(B);
+
+  // Strassen’s 7 multiplications
+  let M1 = strassenMatrixMul(addMatrix(A11, A22), addMatrix(B11, B22));
+  let M2 = strassenMatrixMul(addMatrix(A21, A22), B11);
+  let M3 = strassenMatrixMul(A11, subMatrix(B12, B22));
+  let M4 = strassenMatrixMul(A22, subMatrix(B21, B11));
+  let M5 = strassenMatrixMul(addMatrix(A11, A12), B22);
+  let M6 = strassenMatrixMul(subMatrix(A21, A11), addMatrix(B11, B12));
+  let M7 = strassenMatrixMul(subMatrix(A12, A22), addMatrix(B21, B22));
+
+  // Compute result submatrices
+  let C11 = addMatrix(subMatrix(addMatrix(M1, M4), M5), M7);
+  let C12 = addMatrix(M3, M5);
+  let C21 = addMatrix(M2, M4);
+  let C22 = addMatrix(subMatrix(addMatrix(M1, M3), M2), M6);
+
+  // Combine into final matrix
+  return joinMatrix(C11, C12, C21, C22);
+}
+let A = [
+  [1, 2],
+  [3, 4],
+];
+
+let B = [
+  [5, 6],
+  [7, 8],
+];
+
+console.log(strassenMatrixMul(A, B));
